@@ -73,11 +73,9 @@ def o2Rate(n, pos, mCB):
         mCB += "1"
     else:
         mCB += "0"
-    #print("mCB:", mCB)
     for j in n:
         if j[:pos + 1] == mCB:
             newList.append(j)
-    #print(newList)
     if len(newList) < 2:
         return int(newList[0], 2)
     else:
@@ -93,11 +91,9 @@ def co2Rate(n, pos, lCB):
         lCB += "1"
     else:
         lCB += "0"
-    #print("lCB:", lCB)
     for j in n:
         if j[:pos + 1] == lCB:
             newList.append(j)
-    #print(newList)
     if len(newList) < 2:
         return int(newList[0], 2)
     else:

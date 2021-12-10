@@ -61,57 +61,53 @@ diags = ["111100101100","101100110001","100110100101","001101100010","0101110111
 "000101010111","000010100110","101010110010","000000001100","111110001001","011111011010","011000111101","110110001000","110011001010","100101101111","100111101111","100101100111","110001001010","010110110001","001101101000","101110001111","000001001110",
 "010101110100","001101011111","100010100000","101000011000","010100100111","110011100100","110111110101","000110001111","000001011101","001011101100","111110000110","100001010011","000100000100","001010011011","110000110111"]
 
-
 testData = ["00100","11110","10110","10111","10101","01111","00111","11100","10000","11001","00010","01010"]
 
 
-def mostCommon(n):
-    mCB = ""
-    i = 0
-    #for i in range(0, 12):
-    while i <= 11:
-        count = 0
-        checked = 0
-        for chunk in n:
-            #print(chunk[:i])
-            if chunk[:i] == mCB:
-                checked += 1
-                count += int(chunk[i])
-        if count >= (checked / 2):
-            mCB += "1"
-        else:
-            mCB += "0"
-        i += 1
-        #print("most", mCB)
-        continue
-    return int(mCB, 2)
+def o2Rate(n, pos, mCB):
+    newList = []
+    total = 0
+    for i in n:
+        total += int(i[pos])
+    if total >= len(n) / 2:
+        mCB += "1"
+    else:
+        mCB += "0"
+    #print("mCB:", mCB)
+    for j in n:
+        if j[:pos + 1] == mCB:
+            newList.append(j)
+    #print(newList)
+    if len(newList) < 2:
+        return int(newList[0], 2)
+    else:
+        pos += 1
+        return o2Rate(newList, pos, mCB)
 
-def leastCommon(n):
-    lCB = ""
-    i = 0
-    while i <= 11:
-        count = 0
-        checked = 0
-        for chunk in n:
-            if chunk[:i] == lCB:
-                checked += 1
-                count += int(chunk[i])
-                #print("checked:", checked)
-                #print("lCB:",lCB)
-        if count >= (checked / 2):
-            lCB += "0"
-        else:
-            lCB += "1"
-        i += 1
-        continue
-    #print(lCB)
-    return int(lCB, 2)
-
+def co2Rate(n, pos, lCB):
+    newList = []
+    total = 0
+    for i in n:
+        total += int(i[pos])
+    if total < len(n) / 2:
+        lCB += "1"
+    else:
+        lCB += "0"
+    #print("lCB:", lCB)
+    for j in n:
+        if j[:pos + 1] == lCB:
+            newList.append(j)
+    #print(newList)
+    if len(newList) < 2:
+        return int(newList[0], 2)
+    else:
+        pos += 1
+        return co2Rate(newList, pos, lCB)
 
 
 if __name__ == '__main__':
     runStart = time.time()
     print(time.asctime())
     n = diags
-    print("Result:",mostCommon(n)*leastCommon(n))
+    print("Result:",(o2Rate(n, 0, "") * co2Rate(n, 0, "")))
     print("Run Time Was {:.2F} Seconds".format(time.time() - runStart))

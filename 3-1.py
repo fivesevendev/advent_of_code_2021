@@ -77,13 +77,6 @@ def numFind(n):
     return int(gRate, 2) * int(eRate, 2)
 
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
     runStart = time.time()
     print(time.asctime())

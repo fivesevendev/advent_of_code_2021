@@ -107,19 +107,41 @@ boards = [[67,97,50,51,1,47,15,77,31,66,24,14,55,70,52,76,46,19,32,73,34,22,54,7
 
 
 def numFind(n):
-    print(len(callNums))
-    print(len(boards))
     for cNum in callNums:
-        #print(cNum in boards[0])
         for board in boards:
-            print("Num:", cNum, cNum in board)
+            if cNum in board:
+                location = board.index(cNum)
+                board.pop(location)
+                board.insert(location, "X")
+        for i in boards:
+            if bCheck(i) == True:
+                print("-----------------------------")
+                print(i[:5])
+                print(i[5:10])
+                print(i[10:15])
+                print(i[15:20])
+                print(i[20:25])
+                print("-----------------------------")
+                return bTotal(i) * cNum
 
+def bCheck(n):
+    if n[0] == "X" and n[1] == "X" and n[2] == "X" and n[3] == "X" and n[4] == "X":
+        return True
+    if n[5] == "X" and n[6] == "X" and n[7] == "X" and n[8] == "X" and n[9] == "X":
+        return True
+    if n[10] == "X" and n[11] == "X" and n[12] == "X" and n[13] == "X" and n[14] == "X":
+        return True
+    if n[15] == "X" and n[16] == "X" and n[17] == "X" and n[18] == "X" and n[19] == "X":
+        return True
+    if n[20] == "X" and n[21] == "X" and n[22] == "X" and n[23] == "X" and n[24] == "X":
+        return True
 
-
-
-
-
-
+def bTotal(n):
+    total = 0
+    for i in n:
+        if i != "X":
+            total += i
+    return total
 
 
 if __name__ == '__main__':

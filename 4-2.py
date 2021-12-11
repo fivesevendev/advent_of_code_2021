@@ -106,7 +106,7 @@ boards = [[67,97,50,51,1,47,15,77,31,66,24,14,55,70,52,76,46,19,32,73,34,22,54,7
 [81,38,3,64,71,69,53,19,1,67,17,63,73,10,85,37,15,91,20,62,0,35,47,8,43]]
 
 
-def numFind(n):
+def numFind():
     winners = 0
     for cNum in callNums:
         for board in boards:
@@ -125,7 +125,10 @@ def numFind(n):
                     print(i[15:20])
                     print(i[20:25])
                     print("-----------------------------")
-                    return bTotal(i) * cNum
+                    return (bTotal(i)) * cNum
+                for x in range(0, len(i)):
+                    i.pop(x)
+                    i.insert(x, "-")
 
 def bCheck(n):
     if n[0] == "X" and n[1] == "X" and n[2] == "X" and n[3] == "X" and n[4] == "X":
@@ -138,7 +141,6 @@ def bCheck(n):
         return True
     if n[20] == "X" and n[21] == "X" and n[22] == "X" and n[23] == "X" and n[24] == "X":
         return True
-
     if n[0] == "X" and n[5] == "X" and n[10] == "X" and n[15] == "X" and n[20] == "X":
         return True
     if n[1] == "X" and n[6] == "X" and n[11] == "X" and n[16] == "X" and n[21] == "X":
@@ -161,6 +163,5 @@ def bTotal(n):
 if __name__ == '__main__':
     runStart = time.time()
     print(time.asctime())
-    n = 0
-    print("Result:",numFind(n))
+    print("Result:",numFind())
     print("Run Time Was {:.2F} Seconds".format(time.time() - runStart))

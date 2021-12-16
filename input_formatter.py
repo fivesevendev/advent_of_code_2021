@@ -24,7 +24,7 @@ def intListOfLists(n, o):
     formatted = str(list(contents))
     formatted = formatted.replace(""", '\\n', """, """],\n[""")
     formatted = formatted.replace("""'""", "")
-    formatted = formatted.replace(" ", "")
+    #formatted = formatted.replace(" ", "")
     formatted = '''data = [\n{}\n]'''.format(formatted)
     with open(o, mode='w') as output:
         output.write(formatted)
@@ -40,6 +40,5 @@ if __name__ == '__main__':
     #print(listOfLists(n))
     #print(singleList(n))
     print(intListOfLists(n, o))
-    
     print()
     print("Run Time Was {:.2F} Seconds".format(time.time() - runStart))

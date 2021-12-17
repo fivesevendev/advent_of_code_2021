@@ -17,4 +17,4 @@ if __name__ == '__main__':
     print(time.asctime())
     n = 0
     print("Result:", numFind(n))
-    print("timeit.default_timer Run Time Was {:.4F} Seconds".format(timeit.default_timer() - startTime))
+    print("Run Time Was {:.4F} Seconds".format(timeit.default_timer() - startTime))

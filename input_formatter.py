@@ -1,13 +1,15 @@
-import sys, time
+import timeit, sys, time
 
 
-def listOfLists(n):
+def strListOfLists(n):
     with open(n) as unFormatted:
         contents = unFormatted.read()
-    formatted = contents.replace(" ", '''", "''')
-    formatted = formatted.replace("\n", '''"],\n["''')
-    #formatted = formatted.replace(''' "->",''', "")
-    formatted = '''data = [\n["{}"]\n]'''.format(formatted)
+    formatted = str(list(contents))
+    formatted = formatted.replace(""", '\\n', """, """],\n[""")
+    formatted = formatted.replace(" ", "")
+    formatted = '''data = [\n{}\n]'''.format(formatted)
+    with open(o, mode='w') as output:
+        output.write(formatted)
     return formatted
 
 def singleList(n):
@@ -32,13 +34,13 @@ def intListOfLists(n, o):
 
 
 if __name__ == '__main__':
-    runStart = time.time()
+    startTime = timeit.default_timer()
     print(time.asctime())
     print()
     n = "input.txt"
     o = "output.txt"
-    #print(listOfLists(n))
+    print(strListOfLists(n))
     #print(singleList(n))
-    print(intListOfLists(n, o))
+    #print(intListOfLists(n, o))
     print()
-    print("Run Time Was {:.2F} Seconds".format(time.time() - runStart))
+    print("Run Time Was {:.4F} Seconds".format(timeit.default_timer() - startTime))

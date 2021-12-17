@@ -1,4 +1,4 @@
-import sys, time
+import timeit, sys, time
 
 
 #def numFind(n):
@@ -12,10 +12,9 @@ import sys, time
 
 
 
-
 if __name__ == '__main__':
-    runStart = time.time()
+    startTime = timeit.default_timer()
     print(time.asctime())
     n = 0
     print("Result:", numFind(n))
-    print("Run Time Was {:.2F} Seconds".format(time.time() - runStart))
+    print("timeit.default_timer Run Time Was {:.4F} Seconds".format(timeit.default_timer() - startTime))

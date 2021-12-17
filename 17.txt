@@ -1,0 +1,11 @@
+#data
+xMin = 241
+xMax = 275
+yMin = -75
+yMax = -49
+
+#testData
+#xMin = 20
+#xMax = 30
+#yMin = -10
+#yMax = -5

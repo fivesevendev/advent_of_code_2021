@@ -74,8 +74,8 @@ def cleanDupes(n):
 
 def drawDots(n):
     output = []
-    for _ in range(0, 10):
-        output.append(["."] * 40)
+    for _ in range(0, 6):
+        output.append(["."] * 39)
     for row in n:
         output[row[1]][row[0]] = "@"
     for o in output:

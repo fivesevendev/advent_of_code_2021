@@ -243,7 +243,8 @@ def decoder(n):
 
     
     for l in legend:
-        print(l)
+        print(legend.index(l),l)
+    sys.exit()
 
     strTotal = ""
     for code in outVals:
@@ -259,7 +260,6 @@ def keyMaker(n):
             one = list(word)
         if len(word) == 3:
             seven = list(word)
-            print("seven",seven)
         if len(word) == 4:
             four = list(word)
         if len(word) == 5:
@@ -276,7 +276,27 @@ def keyMaker(n):
             five.append(char)
             six.append(char)
             nine.append(char)
-            topSeg = [char]
+            topSeg = str(char)
+    
+    for char in sorted(set(eight)): # Bottom-Left and Bottom segment 100%
+        if char not in four:
+            if char != topSeg:
+                two.append(char)
+                six.append(char)
+
+    for char in sorted(set(eight)): # Top-Left, Mid 100%
+        if char not in six:
+            if char not in one:
+                five.append(char)
+                nine.append(char)
+
+    for char in five:   # Top, Top-Left, Mid
+        six.append(char)
+
+    for char in nine: # Top, Top-Left, Mid
+        five.append(char)
+        six.append(char)
+        
 
 
 ########################################################## BUILD SEGMENT NUMBERS
@@ -292,7 +312,7 @@ def keyMaker(n):
     print("brSeg", brSeg)
     print("botSeg",botSeg)
 
-    legend = [sorted(zero), sorted(one), sorted(two), sorted(three), sorted(four), sorted(five), sorted(six), sorted(seven), sorted(eight), sorted(nine)]
+    legend = [sorted(set(zero)), sorted(set(one)), sorted(set(two)), sorted(set(three)), sorted(set(four)), sorted(set(five)), sorted(set(six)), sorted(set(seven)), sorted(set(eight)), sorted(set(nine))]
     return legend
 
 

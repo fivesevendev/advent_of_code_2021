@@ -225,11 +225,9 @@ smallTest = [
 def numFind(n):
     total = 0
     for row in range(0, len(n)):
-        rowTotal = decoder(n[row])
+        rowTotal = max(decoder(n[row])[0], decoder(n[row])[1])
         total += rowTotal
-        print("Row:", row, "Row Total: ", rowTotal)
     return total
-    
 
 def decoder(n):
     sigPatterns = []
@@ -240,21 +238,31 @@ def decoder(n):
     for word in range(11, len(n)):
         outVals.append(n[word])
     legend = keyMaker(sigPatterns)
-
-    
-    for l in legend:
-        print(legend.index(l),l)
-    sys.exit()
-
     strTotal = ""
     for code in outVals:
-        strTotal = "{}{}".format(strTotal,legend.index(sorted(code)))
-    return int(strTotal)
+        try:
+            strTotal = "{}{}".format(strTotal,legend[0].index(sorted(code)))       
+        except:
+            pass
+    if strTotal == "":
+        strTotal = '0'
+    strTotal_b = ""
+    for code_b in outVals:
+        try:
+            strTotal_b = "{}{}".format(strTotal_b,legend[1].index(sorted(code_b)))
+        except:
+            pass
+    if strTotal_b == "":
+        strTotal_b = '0'
+    return (int(strTotal), int(strTotal_b))
 
 def keyMaker(n):
     zero, one, two, three, four, five, six, seven, eight, nine = [],[],[],[],[],[],[],[],[],[]
     topSeg, botSeg, midSeg, tlSeg, trSeg, blSeg, brSeg = [],[],[],[],[],[],[]
     fives, sixes = [], []
+    fivesCount, sixesCount = [], []
+    fivesUnique, sixesUnique = [], []
+    allChars = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
     for word in n:
         if len(word) == 2:
             one = list(word)
@@ -297,28 +305,71 @@ def keyMaker(n):
         five.append(char)
         six.append(char)
         
+    for char in one: # Top-Right, Bottom-Right
+        nine.append(char)
 
+    for word in fives:
+        for char in word:
+            fivesCount.append(char)
 
-########################################################## BUILD SEGMENT NUMBERS
+    for char in allChars:
+        if fivesCount.count(char) == 1:
+            fivesUnique.append(char)
 
+    for char in fivesUnique: # Bottom-Left
+        if char not in five:
+            blSeg = str(char)    
+    
+    for char in fivesUnique: # Top-Left
+        if char != blSeg:
+            tlSeg = str(char)
 
-#    print("fives",fives)
-#    print("sixes",sixes)
-    print("topSeg",topSeg)
-    print("tlSeg", tlSeg)
-    print("trSeg", trSeg)
-    print("midSeg",midSeg)
-    print("blSeg",blSeg)
-    print("brSeg", brSeg)
-    print("botSeg",botSeg)
+    for char in two:    # Bottom
+        if char != topSeg:
+            if char != blSeg:
+                botSeg = str(char)
+
+    for char in six:    # Middle
+        if char != topSeg:
+            if char != tlSeg:
+                if char != blSeg:
+                    if char != botSeg:
+                        midSeg = str(char)
+
+    for char in one:
+        three.append(char)
+    
+    for char in eight:
+        if char != midSeg:
+            zero.append(char)
+
+    three.append(midSeg)
+    three.append(botSeg)
+    two.append(midSeg)
+    five.append(botSeg)
+    nine.append(botSeg)
+
+    trSeg = str(one[0])
+    brSeg = str(one[1])
+
+    two_b = two[:]
+    five_b = five[:]
+    six_b = six[:]
+    two_b.append(brSeg) # Mis-match intentional
+    five_b.append(trSeg) # Mis-match intentional
+    six_b.append(trSeg) # Mis-match intentional
+    two.append(trSeg)
+    five.append(brSeg)
+    six.append(brSeg)
 
     legend = [sorted(set(zero)), sorted(set(one)), sorted(set(two)), sorted(set(three)), sorted(set(four)), sorted(set(five)), sorted(set(six)), sorted(set(seven)), sorted(set(eight)), sorted(set(nine))]
-    return legend
+    legend_b = [sorted(set(zero)), sorted(set(one)), sorted(set(two_b)), sorted(set(three)), sorted(set(four)), sorted(set(five_b)), sorted(set(six_b)), sorted(set(seven)), sorted(set(eight)), sorted(set(nine))]
+    return (legend, legend_b)
 
 
 if __name__ == '__main__':
     startTime = timeit.default_timer()
     print(time.asctime())
-    n = testData
+    n = data
     print("Result:", numFind(n))
     print("Run Time Was {:.4F} Seconds".format(timeit.default_timer() - startTime))

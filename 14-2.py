@@ -1,7 +1,7 @@
 import sys, time
 
 
-testTemp = ['N', 'N', 'C', 'B']
+testTemplate = ['N', 'N', 'C', 'B']
 
 testData = [        
 ['CH', 'B'],
@@ -128,65 +128,45 @@ data = [
 ]
 
 
-polymer = {}
-
-#STORE IN DICTIONARY. SEPERATE INTO 2 CHAR BLOCKS, TRACK COUNTS.
-
-
 def numFind(t, n, cycleTarget):
+    polymer = {}
     for i in n:
         polymer[(i[0])] = 0
     for j in range(0, len(t) - 1):
-        #print(t[j] + t[j + 1])
         polymer[(t[j] + t[j + 1])] += 1
-    #for p in polymer.items():
-    #    print(p)
-#    print(polymer)
     count = 0
+    insertCount = {}
+    for char in polymer.keys():
+        insertCount[(char[0])] = 0
+        insertCount[(char[1])] = 0
+    for char in t:
+        insertCount[(char)] += 1
+    return pairInsert(n, count, cycleTarget, polymer, insertCount)
 
-    #for p in polymer.items():
-    #    print(p)
-    #print()
-    return pairInsert(n, count, cycleTarget)
-
-def pairInsert(n, count, cycleTarget):
+def pairInsert(n, count, cycleTarget, polymer, insertCount):
+    adjust = {}
+    for char in polymer.keys():
+        adjust[(char)] = 0
     for i in n:
         if polymer[i[0]] > 0:
-            #print("poly", polymer[i[0]])
-            polymer[(i[0][0] + i[1])] += polymer[i[0]]
-            polymer[(i[1] + i[0][1])] += polymer[i[0]]
-            polymer[i[0]] = 0
+            changeVal = polymer[(i[0])]
+            insertCount[(i[1])] += changeVal
+            adjust[(i[0])] -= changeVal
+            adjust[(i[0][0] + i[1])] += changeVal
+            adjust[(i[1] + i[0][1])] += changeVal
+    for a in adjust.items():
+        polymer[(a[0])] += a[1]
     count += 1
     if count < cycleTarget:
-        return pairInsert(n, count, cycleTarget)
+        return pairInsert(n, count, cycleTarget, polymer, insertCount)
     else:
-        #for z in polymer.items():
-            #print(z)
-        return charCount(polymer)
+        return max(insertCount.values()) - min(insertCount.values())
 
-def charCount(n):
-    print()
-    #for z in n.items():
-        #print(z)
-    chars = {}
-    for i in n.items():
-        chars[(i[0][0])] = 0
-        chars[(i[0][1])] = 0
-    for j in n.items():
-        chars[(j[0][0])] += j[1]
-        chars[(j[0][1])] += j[1]
-    for p in chars.items():
-        print(p)
-    return (max(chars.values()) - min(chars.values()))
-
-
- 
- # TEST ANSWER 1588
 
 if __name__ == '__main__':
     runStart = time.time()
     print(time.asctime())
-    cycleTarget = 10
-    n = testData
-    print("Result:", numFind(testTemp, n, cycleTarget))
+    cycleTarget = 40
+    n = data
+    print("Result:", numFind(template, n, cycleTarget))
     print("Run Time Was {:.4F} Seconds".format(time.time() - runStart))

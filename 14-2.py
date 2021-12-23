@@ -147,23 +147,27 @@ def numFind(t, n, cycleTarget):
     #for p in polymer.items():
     #    print(p)
     #print()
-    pairInsert(n, count, cycleTarget)
+    return pairInsert(n, count, cycleTarget)
 
 def pairInsert(n, count, cycleTarget):
     for i in n:
         if polymer[i[0]] > 0:
-            polymer[(i[0][0] + i[1])] += 1
-            polymer[(i[1] + i[0][1])] += 1
+            #print("poly", polymer[i[0]])
+            polymer[(i[0][0] + i[1])] += polymer[i[0]]
+            polymer[(i[1] + i[0][1])] += polymer[i[0]]
+            polymer[i[0]] = 0
     count += 1
     if count < cycleTarget:
         return pairInsert(n, count, cycleTarget)
     else:
+        #for z in polymer.items():
+            #print(z)
         return charCount(polymer)
 
 def charCount(n):
-    for z in n:
-        print(n)
     print()
+    #for z in n.items():
+        #print(z)
     chars = {}
     for i in n.items():
         chars[(i[0][0])] = 0
@@ -173,7 +177,7 @@ def charCount(n):
         chars[(j[0][1])] += j[1]
     for p in chars.items():
         print(p)
-
+    return (max(chars.values()) - min(chars.values()))
 
 
  

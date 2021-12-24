@@ -21,6 +21,29 @@ data = [
 ['off', 18, 30, 13, 28, 1, 19],
 ['on', -43, 10, -27, 25, -36, 16],
 ['off', 20, 30, -46, -37, 13, 23],
+['on', -46, 4, -2, 47, -20, 32]
+]
+
+bigdata = [
+['on', 4, 48, -44, 10, -45, 4],
+['on', -41, 3, -28, 23, -4, 44],
+['on', -11, 36, -3, 47, -6, 41],
+['on', -38, 14, -23, 22, -33, 18],
+['on', -37, 13, -43, 5, -20, 26],
+['on', -44, 4, -8, 43, 2, 46],
+['on', -41, 6, -39, 5, -25, 20],
+['on', -8, 42, -19, 26, -45, 9],
+['on', -21, 31, -23, 31, -47, 6],
+['on', -33, 20, -49, 0, -23, 28],
+['off', 29, 47, 26, 44, 21, 36],
+['on', 0, 49, -43, 9, -21, 28],
+['off', 34, 48, 36, 45, -13, 0],
+['on', -4, 42, -4, 42, -45, 1],
+['off', 5, 23, 18, 33, 12, 28],
+['on', -9, 37, -7, 37, -38, 14],
+['off', 18, 30, 13, 28, 1, 19],
+['on', -43, 10, -27, 25, -36, 16],
+['off', 20, 30, -46, -37, 13, 23],
 ['on', -46, 4, -2, 47, -20, 32],
 ['on', 60835, 73186, -51099, -20854, 15096, 33276],
 ['on', -90516, -62783, -22014, 2681, 15971, 34116],
@@ -449,13 +472,14 @@ testData = [
 
 smallTest = [
 ["on", 10, 12, 10, 12, 10, 12],
-#["on", 11, 13, 11, 13, 11, 13],
-#["off", 9, 11, 9, 11, 9, 11],
-#["on", 10, 10, 10, 10, 10, 10]
+["on", 11, 13, 11, 13, 11, 13],
+["off", 9, 11, 9, 11, 9, 11],
+["on", 10, 10, 10, 10, 10, 10]
 ]
 
 def volFind(n):
     cubeVol = 0
+    overlap = 0
     onList = []
     for nrow in n:
         if nrow[0] == "on":
@@ -464,18 +488,13 @@ def volFind(n):
             c = (max(nrow[5], nrow[6] + 1) - min(nrow[5], nrow[6] + 1))
             if len(onList) != 0:
                 for onrow in onList:
-                    if onrow[1] <= a <= (onrow[2]):
-                        if onrow[3] <= b <= (onrow[4]):
-                            if onrow[5] <= c <= (onrow[6]):
-                                pass
-                            else:
-                                cubeVol += ((a + b + c) * 3)
-                        else:
-                            cubeVol += ((a + b + c) * 3)
-                    else:
-                        cubeVol += ((a + b + c) * 3)
+                    pass
+                    #x,,y, z in onlist
+                    #total singles in nrow xyz ranges as overlap
+                    #reuse logic of "off"
             else:
                 cubeVol += ((a + b + c) * 3)
+            #print(cubeVol)
             onList.append(nrow)
 
         if nrow[0] == "off":
@@ -487,7 +506,7 @@ def volFind(n):
                                 if onrow[3] <= y <= (onrow[4]):
                                     if onrow[5] <= z <= (onrow[6]):
                                         cubeVol -= 1
-        #print(cubeVol)
+        print(cubeVol)
 
 
 
@@ -516,7 +535,7 @@ def numFind(n):
                         cubesOff.append((x, y, z))
             cubesOff = set(cubesOff)
             cubesOn.difference_update(cubesOff)
-        #print("Good:", len(cubesOn))
+        print("Good:", len(cubesOn))
     return len(cubesOn)
 
 
@@ -524,8 +543,8 @@ if __name__ == '__main__':
     startTime = timeit.default_timer()
     print(time.asctime())
     #n = smallTest
-    #n = testData
-    n = data
+    n = testData
+    #n = data
     print("Result:", volFind(n))
-    #print("Result:", numFind(n))
+    print("Result:", numFind(n))
     print("Run Time Was {:.7F} Seconds".format(timeit.default_timer() - startTime))

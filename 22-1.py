@@ -448,17 +448,59 @@ testData = [
 ]
 
 smallTest = [
-["on", 10, 12, 10, 12,10, 12],
-["on", 11, 13, 11, 13, 11, 13],
-["off", 9, 11, 9, 11, 9, 11],
-["on", 10, 10, 10, 10, 10, 10]
+["on", 10, 12, 10, 12, 10, 12],
+#["on", 11, 13, 11, 13, 11, 13],
+#["off", 9, 11, 9, 11, 9, 11],
+#["on", 10, 10, 10, 10, 10, 10]
 ]
+
+def volFind(n):
+    cubeVol = 0
+    onList = []
+    for nrow in n:
+        if nrow[0] == "on":
+            a = (max(nrow[1], nrow[2] + 1) - min(nrow[1], nrow[2] + 1))
+            b = (max(nrow[3], nrow[4] + 1) - min(nrow[3], nrow[4] + 1))
+            c = (max(nrow[5], nrow[6] + 1) - min(nrow[5], nrow[6] + 1))
+            if len(onList) != 0:
+                for onrow in onList:
+                    if onrow[1] <= a <= (onrow[2]):
+                        if onrow[3] <= b <= (onrow[4]):
+                            if onrow[5] <= c <= (onrow[6]):
+                                pass
+                            else:
+                                cubeVol += ((a + b + c) * 3)
+                        else:
+                            cubeVol += ((a + b + c) * 3)
+                    else:
+                        cubeVol += ((a + b + c) * 3)
+            else:
+                cubeVol += ((a + b + c) * 3)
+            onList.append(nrow)
+
+        if nrow[0] == "off":
+            for x in range(nrow[1], nrow[2] + 1):
+                for y in range(nrow[3], nrow[4] + 1):
+                    for z in range(nrow[5], nrow[6] + 1):    
+                        for onrow in onList:
+                            if onrow[1] <= x <= (onrow[2]):
+                                if onrow[3] <= y <= (onrow[4]):
+                                    if onrow[5] <= z <= (onrow[6]):
+                                        cubeVol -= 1
+        #print(cubeVol)
+
+
+
+    #cubeVol *= 3   
+    return cubeVol
+
+
+
 
 def numFind(n):
     cubesOn = set([])
     cubesOff = set([])
     for row in n:
-        
         if row[0] == "on":
             cubesOn = list(cubesOn)
             for x in range(row[1], row[2] + 1):
@@ -466,7 +508,6 @@ def numFind(n):
                     for z in range(row[5], row[6] + 1):
                         cubesOn.append((x, y, z))
             cubesOn = set(cubesOn)
-
         if row[0] == "off":
             cubesOff = list(cubesOff)
             for x in range(row[1], row[2] + 1):
@@ -475,19 +516,16 @@ def numFind(n):
                         cubesOff.append((x, y, z))
             cubesOff = set(cubesOff)
             cubesOn.difference_update(cubesOff)
-
-
+        #print("Good:", len(cubesOn))
     return len(cubesOn)
-
-
-    ########## WHY IS SET.DIFFERENCE ONE LESS THANT ADD/REMOVE
-
 
 
 if __name__ == '__main__':
     startTime = timeit.default_timer()
     print(time.asctime())
     #n = smallTest
+    #n = testData
     n = data
-    print("Result:", numFind(n))
-    print("Run Time Was {:.4F} Seconds".format(timeit.default_timer() - startTime))
+    print("Result:", volFind(n))
+    #print("Result:", numFind(n))
+    print("Run Time Was {:.7F} Seconds".format(timeit.default_timer() - startTime))

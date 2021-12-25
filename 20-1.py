@@ -14,15 +14,34 @@ testData = [
 
 def numFind(a, n):
     legend = {}
+    
     for char in range(0, len(a)):
         legend[(char)] = a[char]
-    #for en in enlarge(n):
-    #    print(en)
     n = enlarge(n)
+
+    for en in n:
+        print(en)
+    print()
+
+    enhanced = [(['.'] * len(n[0]))] * len(n)
     for row in range(2, len(n) - 2):
         for col in range(2, len(n[row]) - 2):
-            print(n[row][col])
-            # WALKING THRU ENLARGED/PADDED IMAGE. NEED TO WRITE CONVERTER FUNC/LOGIC
+            convert = ""
+            convert += n[row - 1][col - 1]
+            convert += n[row - 1][col]
+            convert += n[row - 1][col + 1]
+            convert += n[row][col - 1]
+            convert += n[row][col]
+            convert += n[row][col + 1]
+            convert += n[row + 1][col - 1]
+            convert += n[row + 1][col]
+            convert += n[row + 1][col + 1]
+            convert = convert.replace(".", "0").replace("#", "1")
+            convert = int(convert, 2)
+            enhanced[row][col] = legend[convert]
+            print(row, col, convert, legend[convert])
+    for row in enhanced:
+        print(row)
 
 def enlarge(n):
     for row in range(0, len(n)):
@@ -35,10 +54,6 @@ def enlarge(n):
     n.append(['.'] * len(n[0]))
     n.append(['.'] * len(n[0]))
     return n
-
-
-
-
 
 
 if __name__ == '__main__':

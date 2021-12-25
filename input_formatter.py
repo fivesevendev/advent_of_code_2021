@@ -57,8 +57,8 @@ if __name__ == '__main__':
     print()
     n = "input.txt"
     o = "output.txt"
-    #print(strSingleList(n, o))
-    print(strListOfLists(n, o))
+    print(strSingleList(n, o))
+    #print(strListOfLists(n, o))
     #print(intSingleList(n, o))
     #print(intListOfLists(n, o))
     print()

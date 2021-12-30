@@ -14,7 +14,7 @@ def strListOfLists(n, o):
     with open(n) as unFormatted:
         formatted = unFormatted.read()
     formatted = str(list(formatted))
-    formatted = formatted.replace(""", '\\n'""", """],\n['""") ## New line for each row
+    formatted = formatted.replace(""", '\\n', """, """],\n[""") ## New line for each row
     #formatted = formatted.replace("""\n""", """],[""")  ## All rows on same line
     #formatted = formatted.replace(" ", """','""")
     #formatted = formatted.replace("..", ", ")
@@ -57,8 +57,8 @@ if __name__ == '__main__':
     print()
     n = "input.txt"
     o = "output.txt"
-    print(strSingleList(n, o))
-    #print(strListOfLists(n, o))
+    #print(strSingleList(n, o))
+    print(strListOfLists(n, o))
     #print(intSingleList(n, o))
     #print(intListOfLists(n, o))
     print()
